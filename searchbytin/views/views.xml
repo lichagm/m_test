@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherited Sale Order Form View to show VAT in customer name -->
+<!--        <record id="view_order_form_inherit" model="ir.ui.view">-->
+<!--            <field name="name">sale.order.form.inherit</field>-->
+<!--            <field name="model">sale.order</field>-->
+<!--            <field name="inherit_id" ref="sale.view_order_form"/>-->
+<!--            <field name="arch" type="xml">-->
+
+<!--                <xpath expr="//field[@name='partner_id']" position="after">-->
+<!--                    <field name="partner_id"-->
+<!--                           invisible="1"-->
+<!--                           widget="res_partner_many2one"-->
+<!--                           domain="[('customer','=',True)]"-->
+<!--                           context="{'search_default_customer':1, 'show_address': 0, 'show_vat': True}">-->
+<!--                    </field>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+
+        <!-- Inherited Partner Tree View to show VAT column -->
+        <record id="view_partner_tree_inherit" model="ir.ui.view">
+            <field name="name">view.partner.tree.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='display_name']" position="before">
+                    <field name="vat"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Inherited Partner Kanban View to show VAT -->
+        <record id="res_partner_kanban_view_inherit" model="ir.ui.view">
+            <field name="name">res.partner.kanban.view.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+            <field name="arch" type="xml">
+                <field name="display_name" position="after">
+                    <field name="vat"/>
+                </field>
+                <xpath expr="//div[@class='o_kanban_tags_section oe_kanban_partner_categories']" position="after">
+                    <li t-if="record.vat.raw_value" class="o_text_overflow"><field name="vat"/></li>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Inherited Partner Search to search by VAT -->
+        <record id="view_res_partner_filter_inherit" model="ir.ui.view">
+            <field name="name">view.res.partner.filter.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="vat"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
